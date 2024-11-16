@@ -2,8 +2,30 @@ import React from 'react'
 import logo from '../images/ChessClubLogo.png'
 import board from '../images/ChessBoard.png'
 import { TextGenerateEffect } from "./ui/text-generate-effect";
+import { AnimatedAnnouncements } from './ui/animated-announcements';
 
 const Hero = () => {
+    const announcements = [
+        {
+          image: board.src,
+          subject: "Campus Renovation Update",
+          description:
+            "Exciting news! Our campus is undergoing major renovations to improve facilities and create more collaborative spaces for students.",
+        },
+        {
+          image: logo.src,
+          subject: "New Club Registrations",
+          description:
+            "Join one of our newly formed clubs this semester! Explore interests, meet peers, and develop skills outside the classroom.",
+        },
+        {
+          image: logo.src,
+          subject: "Alumni Networking Event",
+          description:
+            "Don't miss the chance to connect with accomplished alumni at our annual networking event. Reserve your spot today!",
+        },
+      ];
+    
   return (
     <div>
         <div className="top-background pb-8 pt-8 w-full flex items-center justify-center text-white font-bold"
@@ -40,6 +62,9 @@ const Hero = () => {
         <div className='announcements'>
             <div className='flex items-center justify-center pt-10'>
                 <h1 className="text-3xl font-bold ">Announcements</h1>
+            </div>
+            <div>
+                <AnimatedAnnouncements announcements={announcements} autoplay={false} />
             </div>
         </div>
 

@@ -5,32 +5,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type Testimonial = {
-  quote: string;
-  name: string;
-  designation: string;
-  src: string;
+type Announcement = {
+  image: string;
+  subject: string;
+  description: string;
 };
-export const AnimatedTestimonials = ({
-  testimonials,
+
+export const AnimatedAnnouncements = ({
+  announcements,
   autoplay = false,
 }: {
-  testimonials: Testimonial[];
+  announcements: Announcement[];
   autoplay?: boolean;
 }) => {
   const [active, setActive] = useState(0);
 
   const handleNext = () => {
-    setActive((prev) => (prev + 1) % testimonials.length);
+    setActive((prev) => (prev + 1) % announcements.length);
   };
 
   const handlePrev = () => {
-    setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setActive((prev) => (prev - 1 + announcements.length) % announcements.length);
   };
 
-  const isActive = (index: number) => {
-    return index === active;
-  };
+  const isActive = (index: number) => index === active;
 
   useEffect(() => {
     if (autoplay) {
@@ -39,18 +37,18 @@ export const AnimatedTestimonials = ({
     }
   }, [autoplay]);
 
-  const randomRotateY = () => {
-    return Math.floor(Math.random() * 21) - 10;
-  };
+  const randomRotateY = () => Math.floor(Math.random() * 21) - 10;
+
   return (
     <div className="max-w-sm md:max-w-4xl mx-auto antialiased font-sans px-4 md:px-8 lg:px-12 py-20">
-      <div className="relative grid grid-cols-1 md:grid-cols-2  gap-20">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-20">
+        {/* Image Section */}
         <div>
           <div className="relative h-80 w-full">
             <AnimatePresence>
-              {testimonials.map((testimonial, index) => (
+              {announcements.map((announcement, index) => (
                 <motion.div
-                  key={testimonial.src}
+                  key={announcement.image}
                   initial={{
                     opacity: 0,
                     scale: 0.9,
@@ -64,7 +62,7 @@ export const AnimatedTestimonials = ({
                     rotate: isActive(index) ? 0 : randomRotateY(),
                     zIndex: isActive(index)
                       ? 999
-                      : testimonials.length + 2 - index,
+                      : announcements.length + 2 - index,
                     y: isActive(index) ? [0, -80, 0] : 0,
                   }}
                   exit={{
@@ -80,8 +78,8 @@ export const AnimatedTestimonials = ({
                   className="absolute inset-0 origin-bottom"
                 >
                   <Image
-                    src={testimonial.src}
-                    alt={testimonial.name}
+                    src={announcement.image}
+                    alt={announcement.subject}
                     width={500}
                     height={500}
                     draggable={false}
@@ -92,6 +90,8 @@ export const AnimatedTestimonials = ({
             </AnimatePresence>
           </div>
         </div>
+
+        {/* Subject and Description Section */}
         <div className="flex justify-between flex-col py-4">
           <motion.div
             key={active}
@@ -112,14 +112,11 @@ export const AnimatedTestimonials = ({
               ease: "easeInOut",
             }}
           >
-            <h3 className="text-2xl font-bold dark:text-white text-black">
-              {testimonials[active].name}
+            <h3 className="text-2xl font-bold dark:text-black text-black">
+              {announcements[active].subject}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-neutral-500">
-              {testimonials[active].designation}
-            </p>
-            <motion.p className="text-lg text-gray-500 mt-8 dark:text-neutral-300">
-              {testimonials[active].quote.split(" ").map((word, index) => (
+            <motion.p className="text-lg text-gray-900 mt-8 dark:text-gray-900">
+              {announcements[active].description.split(" ").map((word, index) => (
                 <motion.span
                   key={index}
                   initial={{
